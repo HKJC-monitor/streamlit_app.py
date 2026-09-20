@@ -4,7 +4,7 @@ import math
 import urllib.request
 import json
 
-# 1. 頁面配置與淺色手機風格
+# 頁面配置與淺色風格自定義
 st.set_page_config(
     page_title="HKJC 賽馬大戶落飛監控盤",
     page_icon="🏇",
@@ -28,9 +28,8 @@ st.markdown("""
     .alert-card {
         background: #FEF2F2;
         border-left: 5px solid #EF4444;
-        border-top: 1px solid #FCA5A5;
-        border-right: 1px solid #FCA5A5;
-        border-bottom: 1px solid #FCA5A5;
+        border: 1px solid #FCA5A5;
+        border-left-width: 5px;
         border-radius: 10px;
         padding: 12px 15px;
         margin-bottom: 14px;
@@ -49,8 +48,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 2. 方式 B 大戶注碼倒算與異常倍數核心
-RETENTION_RATE = 0.825  # 馬會 17.5% 抽水
+# 方式 B 核心運算
+RETENTION_RATE = 0.825
 
 def analyze_smart_money(runners, prev_pool, curr_pool, threshold=3.0):
     n = len(runners)
@@ -97,7 +96,6 @@ def analyze_smart_money(runners, prev_pool, curr_pool, threshold=3.0):
     df = df.sort_values(by=['rank', 'delta_stake'], ascending=[True, False]).reset_index(drop=True)
     return df
 
-# 3. Telegram 模組 (已預載你的 Bot Token)
 DEFAULT_BOT_TOKEN = "8589965192:AAGGblHTUfSaCV4JuGwsgNC4pLNJ2nPpQE0"
 
 def send_telegram(bot_token, chat_id, msg):
@@ -112,7 +110,6 @@ def send_telegram(bot_token, chat_id, msg):
     except Exception:
         return False
 
-# 4. 畫面渲染
 st.markdown("""
 <div class="header-box">
     <div class="header-title">🏇 賽馬大戶落飛即時監控網站</div>
@@ -202,3 +199,5 @@ with st.sidebar:
                 st.success("已成功發送至你手機 Telegram！")
             else:
                 st.error("發送失敗，請確認在 Telegram 點擊過機器人的 Start。")
+
+
